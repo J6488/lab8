@@ -31,6 +31,49 @@ size_t Size(void* ptr)
 // extraMemoryAllocated counts bytes of extra memory allocated
 void mergeSort(int pData[], int l, int r)
 {
+	int m;
+	if(l < r){
+		m = (l + r)/2;
+		mergeSort(pData, l, m);
+		mergeSort(pData, m + 1, r);
+		//merge arrays
+		int i, j, k, n1 = m - l + 1, n2 = r - m;
+		int* left = (int*)Alloc(n1 * sizeof(int));
+		int* right = (int*)Alloc(n2 * sizeof(int));
+		for(i = 0; i < n1; i++){
+			left[i] = pData[l + i];
+		}
+		for(j = 0; j < n2; j++){
+			right[j] = pData[m + 1 + j];
+		}
+		i = 0;
+		j = 0;
+		k = l;
+		while(i < n1 && j < n2){
+			if(left[i] <= right[j]){
+				pData[k] = left[i];
+				i++;
+			}
+			else{
+				pData[k] = right[j];
+				j++;
+			}
+			k++;
+		}
+		while(i < n1){
+			pData[k] = left[i];
+			i++;
+			k++;
+		}
+		while(j < n2){
+			pData[k] = right[j];
+			j++;
+			k++;
+		}
+		DeAlloc(left);
+		DeAlloc(right);
+	}
+	//printArray creates garbage values but I think thats an issue with that function
 }
 
 // parses input file to an integer array
